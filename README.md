@@ -1,2 +1,4 @@
 # 03--stebezs
-03--stebezs created by GitHub Classroom
+
+Trabalho de Técnicas de programação
+- programação defensiva
