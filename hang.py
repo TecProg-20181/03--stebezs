@@ -191,6 +191,7 @@ def main():
            guessed = letter_word.guessed_letter(hangman.secret_word, letters_guessed)
 
            print 'Oops! You have already guessed that letter: ', guessed
+           logging.warning('This letter has already been used')
         elif letter in hangman.secret_word:
             letters_guessed.append(letter)
             guessed = letter_word.guessed_letter(hangman.secret_word, letters_guessed)
@@ -201,12 +202,15 @@ def main():
             guessed = letter_word.guessed_letter(hangman.secret_word, letters_guessed)
 
             print 'Oops! That letter is not in my word: ', guessed
+            logging.warning('This letter dont belong to this word')
         print '------------'
 
     else:
         if hangman.is_word_guessed():
             print 'Congratulations, you won!'
+            logging.info('Won the game')
         else:
             print 'Sorry, you ran out of guesses. The word was ', hangman.secret_word, '.'
+            logging.info('Lose the game')
 
 main()
