@@ -1,5 +1,7 @@
 import random
 import string
+import logging
+import sys
 
 WORDLIST_FILENAME = "palavras.txt"
 
@@ -9,14 +11,16 @@ class WordWorld(object):
         self.letters_guessed = []
         self.guessed = guesses
 
+
     def is_word_guessed(self):
         for letter in self.secret_word:
           if letter in self.letters_guessed:
              pass
           else:
              return False
-
         return True
+
+
 
     def load_words(self):
         """
@@ -24,8 +28,16 @@ class WordWorld(object):
         take a while to finish.
         """
         print "Loading word list from file..."
-        # inFile: file
         inFile = open(WORDLIST_FILENAME, 'r', 0)
+
+        try:
+           inFile = open(WORDLIST_FILENAME, 'r', 0)
+           logging.info ('Opening the file')
+        except IOError:
+           print'File not found, enter with right File!'
+           logging.info ('This file does not exist')
+           sys.exit()
+
         # line: string
         line = inFile.readline()
         # wordlist: list of strings
@@ -36,19 +48,20 @@ class WordWorld(object):
         join_letters = ''.join(set(random_word))
 
         while(len(join_letters) > 8):
-           random_choice_word = random.choice(word_list)  
+           random_choice_word = random.choice(word_list)
         return random_word
+
 
     def get_guessed_word(self):
         guessed = ''
-
         return guessed
+
 
     def get_available_letters(self):
       #'abcdefghijklmnopqrstuvwxyz'
         available = string.ascii_lowercase
-
         return available
+
 
     def guessed_letter(self, secret_word, letters_guessed):
         guessed = self.get_guessed_word()
@@ -58,12 +71,13 @@ class WordWorld(object):
                 guessed += letter
             else:
                 guessed += '_ '
-                
         return guessed
+
 
     def unite_letters(self, secret_word):
         unite_letters = ''.join(set(secret_word))
         print "This word has ", len(unite_letters), " different letters"
+
 
 class Hangman(WordWorld):
 
@@ -150,11 +164,11 @@ class Hangman(WordWorld):
 
 def main():
 
-    guesses = 8    
+    guesses = 8
     hangman = Hangman(guesses)
     letter_word = WordWorld(guesses)
     letters_guessed = hangman.letters_guessed
-    
+
     print 'Welcome to the game, Hangman!'
     print 'I am thinking of a word that is', len(hangman.secret_word), ' letters long.'
     letter_word.unite_letters(hangman.secret_word)
