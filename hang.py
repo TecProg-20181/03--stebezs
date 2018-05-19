@@ -36,7 +36,7 @@ class WordWorld(object):
         except IOError:
            print'File not found, enter with right File!'
            logging.info ('This file does not exist')
-           sys.exit()
+           sys.exit(0)
 
         # line: string
         line = inFile.readline()
@@ -60,6 +60,8 @@ class WordWorld(object):
     def get_available_letters(self):
       #'abcdefghijklmnopqrstuvwxyz'
         available = string.ascii_lowercase
+        while available not in string.ascii_letters:
+            letter = input('You can\'t do that. Chose characters from a-z only')
         return available
 
 
@@ -189,7 +191,6 @@ def main():
         if letter in letters_guessed:
            letters_guessed.append(letter)
            guessed = letter_word.guessed_letter(hangman.secret_word, letters_guessed)
-
            print 'Oops! You have already guessed that letter: ', guessed
            logging.warning('This letter has already been used')
         elif letter in hangman.secret_word:
